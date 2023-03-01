@@ -15,4 +15,12 @@ export class UserService {
   async listUsers() {
     return this.prisma.user.findMany();
   }
+
+  async existsWithEmail(email: string) {
+    const userEmail = this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    return userEmail !== null;
+  }
 }
