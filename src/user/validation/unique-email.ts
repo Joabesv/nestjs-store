@@ -13,11 +13,8 @@ import { UserService } from '../user.service';
 export class IsEmailUnique implements ValidatorConstraintInterface {
   constructor(private readonly userService: UserService) {}
 
-  async validate(
-    email: string,
-    validationArguments?: ValidationArguments | undefined,
-  ) {
-    const isUserWithEmail = this.userService.existsWithEmail(email);
+  async validate(email: string, validationArguments?: ValidationArguments) {
+    const isUserWithEmail = await this.userService.existsWithEmail(email);
     return !isUserWithEmail;
   }
 }

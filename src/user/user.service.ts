@@ -21,6 +21,10 @@ export class UserService {
       where: { email },
     });
 
-    return userEmail !== null;
+    if (!userEmail) {
+      throw new Error('does not exist');
+    }
+
+    return userEmail;
   }
 }
