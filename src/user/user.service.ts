@@ -48,4 +48,21 @@ export class UserService {
       },
     });
   }
+
+  async deleteUser(id: number) {
+    const userToDelete = this.prisma.user.delete({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+
+    if (!userToDelete) {
+      throw new Error('User does not exist');
+    }
+
+    return userToDelete;
+  }
 }
