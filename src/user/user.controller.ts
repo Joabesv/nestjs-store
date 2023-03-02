@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateUserDTO } from './dto/CreateUser.dto';
+import { ListUserDTO } from './dto/UserList.dto';
 import { UserService } from './user.service';
 
 @Controller('/users')
@@ -14,6 +15,11 @@ export class UserController {
 
   @Get()
   async listUsers() {
-    return this.userService.listUsers();
+    const users = await this.userService.listUsers();
+    const listedUsers = users.map(
+      (user) => new ListUserDTO(user.id, user.name),
+    );
+
+    return listedUsers;
   }
 }
