@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateUserDTO } from './dto/CreateUser.dto';
+import { UpdateUserDTO } from './dto/UpdateUser.dto';
 import { ListUserDTO } from './dto/UserList.dto';
 import { UserService } from './user.service';
 
@@ -21,5 +22,14 @@ export class UserController {
     );
 
     return listedUsers;
+  }
+
+  @Put('/:id')
+  async updateUser(@Param('id') id: number, @Body() newData: UpdateUserDTO) {
+    const updatedUser = await this.userService.update(id, newData);
+    return {
+      user: updatedUser,
+      msg: 'User updated',
+    };
   }
 }

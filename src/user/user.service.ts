@@ -27,4 +27,25 @@ export class UserService {
 
     return userEmail;
   }
+
+  async update(id: number, newData: Prisma.UserUpdateInput) {
+    const possibleUser = this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!possibleUser) {
+      throw new Error('User do not exits');
+    }
+
+    return this.prisma.user.update({
+      data: newData,
+      where: {
+        id,
+      },
+      select: {
+        name: true,
+        email: true,
+      },
+    });
+  }
 }
